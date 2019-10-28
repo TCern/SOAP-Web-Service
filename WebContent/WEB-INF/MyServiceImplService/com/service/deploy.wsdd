@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from MyServiceImplService WSDL service -->
+
+  <service name="MyServiceImpl" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.com"/>
+      <parameter name="wsdlServiceElement" value="MyServiceImplService"/>
+      <parameter name="schemaQualified" value="http://service.com,http://beans.com"/>
+      <parameter name="wsdlServicePort" value="MyServiceImpl"/>
+      <parameter name="className" value="com.service.MyServiceImpl"/>
+      <parameter name="wsdlPortType" value="MyServiceImpl"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://beans.com" name="getX" qname="operNS:getX" returnQName="retNS:getXReturn" returnType="rtns:Contact" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:param" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="getX"/>
+
+      <typeMapping xmlns:ns="http://beans.com" qname="ns:Contact" type="java:com.beans.Contact" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>
